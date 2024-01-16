@@ -1,0 +1,92 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Heap {
+    public:
+        int arr[100];
+        int size;
+        
+        Heap() {
+            arr[0] = -1;
+            size = 0;
+        }
+        
+        void insert(int val) {
+            size = size + 1;
+            int index = size;
+            arr[index] = val;
+            
+            while(index > 1) {
+                int parent = index/2;
+                
+                if(arr[parent] < arr[index]) {
+                    int temp = arr[parent];
+                    arr[parent] = arr[index];
+                    arr[index] = temp;
+                    
+                    index = parent;
+                }
+                else {
+                    return;
+                }
+            }
+        }
+        
+        void print() {
+            for(int i = 1; i <= size; i++) {
+                cout<<arr[i]<<" ";
+            }
+            cout<<endl;
+        }
+        
+        void deleteFromHeap() {
+            if(size == 0) {
+                cout<<"Nothing to delete !!"<<endl;
+                return;
+            }
+            
+            //Step1: put last element to the root
+            arr[1] = arr[size];
+            
+            //Step2: remove last element from the array
+            size--;
+            
+            //Step3: place root element to the correct position
+            int index = 1;
+            while(index < size) {
+                int leftIndex = 2 * index;
+                int rightIndex = 2 * index + 1;
+                
+                if(leftIndex < size && arr[index] < arr[leftIndex]) {
+                    int temp = arr[index];
+                    arr[index] = arr[leftIndex];
+                    arr[leftIndex] = temp;
+                    index = leftIndex;
+                }
+                else if(rightIndex < size && arr[index] < arr[rightIndex]) {
+                    int temp = arr[index];
+                    arr[index] = arr[rightIndex];
+                    arr[rightIndex] = temp;
+                    index = rightIndex;
+                }
+                else {
+                    return;
+                }
+            }
+        }
+};
+
+int main() {
+    
+    Heap heap;
+    heap.insert(20);
+    heap.insert(30);
+    heap.insert(23);
+    heap.insert(27);
+    heap.insert(19);
+    heap.print();
+    heap.deleteFromHeap();
+    heap.print();
+    
+    return 0;
+}
