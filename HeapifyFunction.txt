@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void heapify(int arr[], int size, int i) {
+    int largest = i;
+    int leftIndex = 2 * i;
+    int rightIndex = 2 * i + 1;
+    
+    while(leftIndex <= size && arr[largest] < arr[leftIndex]) {
+        largest = leftIndex;
+    }
+    while(rightIndex <= size && arr[largest] < arr[rightIndex]) {
+        largest = rightIndex;
+    }
+    if(largest != i) {
+        int temp = arr[largest];
+        arr[largest] = arr[i];
+        arr[i] = temp;
+        
+        heapify(arr, size, largest);
+    }
+}
+
+int main() {
+
+    int arr[] = { -1, 15, 5, 20, 1, 17, 10, 30 };
+    int size = 7;
+    for(int i = size/2; i > 0; i--) {
+        heapify(arr, size, i);
+    }
+    cout<<endl<<"Array after heapify :- ";
+    for(int i = 1; i < size; i++) {
+        cout<<arr[i]<<" ";
+    }
+    
+    return 0;
+}
