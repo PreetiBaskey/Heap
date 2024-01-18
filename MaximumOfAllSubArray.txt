@@ -27,7 +27,7 @@ int main() {
     int k = 3;
     
     vector<int> result = maxSlidingWindow(arr, k);
-    
+    cout<<"Max sliding window is :- ";
     for(int data: result) {
         cout<<data<<" ";
     }
