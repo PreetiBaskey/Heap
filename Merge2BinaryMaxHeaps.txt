@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void heapify(vector<int> &arr, int size, int i) {
+    int largest = i;
+    int leftIndex = 2 * i;
+    int rightIndex = 2 * i + 1;
+    
+    while(leftIndex <= size && arr[leftIndex] > arr[largest]) {
+        largest = leftIndex;
+    }
+    while(rightIndex <= size && arr[rightIndex] > arr[largest]) {
+        largest = rightIndex;
+    }
+    if(largest != i) {
+        int temp = arr[largest];
+        arr[largest] = arr[i];
+        arr[i] = temp;
+        
+        heapify(arr, size, largest);
+    }
+}
+
+int main() {
+    
+    vector<int> collectData;
+    int arr1[] = {2, 5, 1, 9, 12};
+    int arr2[] = {3, 7, 4, 10};
+
+    collectData.push_back(-1);
+    cout<<"First array data :- ";
+    for(int i = 0; i < 5; i++) {
+        cout<<arr1[i]<<" ";
+        collectData.push_back(arr1[i]);
+    }
+    cout<<endl<<"Second array data :- ";
+    for(int i = 0; i < 4; i++) {
+        cout<<arr2[i]<<" ";
+        collectData.push_back(arr2[i]);
+    }
+    
+    cout<<endl<<"Collected data from 2 arrays to Vector is :- ";
+    for(int data: collectData) {
+        cout<<data<<" ";
+    }
+    
+    for(int i = collectData.size()/2; i > 0; i--) {
+        heapify(collectData, collectData.size(), i);
+    }
+    cout<<endl<<"Heap after merging two max heap is :- ";
+    for(int i = 1; i < collectData.size(); i++) {
+        cout<<collectData[i]<<" ";
+    }
+    
+    return 0;
+}
