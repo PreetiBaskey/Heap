@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+    
+    vector<int> arr = {3, 2, 1, 5, 6, 4};
+    int k;
+    priority_queue<int> maxh;
+    
+    cout<<"Enter kth number to check :- ";
+    cin>>k;
+    for(int data: arr) {
+        maxh.push(data);
+        
+        if(maxh.size() > k) {
+            maxh.pop();
+        }
+    }
+    cout<<endl<<k<<"th smallest element is :- "<<maxh.top();
+    //O(nlog(k))
+    
+    
+    return 0;
+}
