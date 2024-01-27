@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class node {
+    public:
+        int data;
+        node* left;
+        node* right;
+        
+        node(int data) {
+            this->data = data;
+            this->left = NULL;
+            this->right = NULL;
+        }
+};
+
+node* createBinaryTree(node* root) {
+    int data;
+    cout<<"Enter data [Enter -1 for NULL] :- ";
+    cin>>data;
+    if(data == -1) {
+        return NULL;
+    }
+    root = new node(data);
+    cout<<"Enter left data of "<<data<<endl;
+    root->left = createBinaryTree(root->left);
+    cout<<"Enter right data of "<<data<<endl;
+    root->right = createBinaryTree(root->right);
+    
+    return root;
+}
+
+void inOrder(node* root) {
+    if(root == NULL) {
+        return;
+    }
+    inOrder(root->left);
+    cout<<root->data<<" ";
+    inOrder(root->right);
+}
+
+int binaryTreeSize(node* root) {
+    if(root == NULL) {
+        return 0;
+    }
+    return 1 + binaryTreeSize(root->left) + binaryTreeSize(root->right);
+}
+
+bool checkHeap(node* root, int btSize, int index) {
+    if(root == NULL) {
+        return true;
+    }
+    if(index >= btSize) {
+        return false;
+    }
+    
+    //Checking, if Binary Tree satisfying the heap property
+    //Parent node should be greater than the childs node, and applicable for each node of the binary tree
+    if((root->left && root->left->data > root->data) || root->right && (root->right->data > root->data)) {
+        return false;
+    }
+    
+    //Checking, if it a Complete Binary Tree
+    return checkHeap(root->left, btSize, 2 * index + 1) && checkHeap(root->right, btSize, 2 * index + 2);
+}
+
+bool isHeap(node* root, int btSize) {
+    if(root == NULL) {
+        return true;
+    }
+    int index = 0;
+    if(checkHeap(root, btSize, index)) {
+        return true;
+    }
+    else {
+        false;
+    }
+}
+
+int main() {
+    
+    node* root = NULL;
+    node* updatedRoot = createBinaryTree(root);
+    inOrder(updatedRoot);
+    int btSize = binaryTreeSize(updatedRoot);
+    bool result = isHeap(updatedRoot, btSize);
+    if(result) {
+        cout<<endl<<"Given binary tree is a heap !!";
+    }
+    else {
+        cout<<endl<<"Given binary tree is not a heap !!";
+    }
+    
+    return 0;
+}
