@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<int> heapify(vector<int> &arr, int i, int size) {
+    int largest = i;
+    int leftIndex = 2 * i + 1;
+    int rightIndex = 2 * i + 2;
+    
+    while(leftIndex <= size && arr[largest] < arr[leftIndex]) {
+        largest = leftIndex;
+    }
+    while(rightIndex <= size && arr[largest] < arr[rightIndex]) {
+        largest = rightIndex;
+    }
+    if(largest != i) {
+        int temp = arr[largest];
+        arr[largest] = arr[i];
+        arr[i] = temp;
+        
+        heapify(arr, largest, size);
+    }
+    
+    return arr;
+}
+
+void printArray(vector<int> &arr, int size) {
+    for(int data: arr) {
+        cout<<data<<" ";
+    }
+}
+
+int main() {
+    
+    //Test Cases 1
+    vector<int> arr = {15, 5, 20, 1, 17, 10, 30};
+    //Test Cases 2
+    // vector<int> arr = { 3, 5, 9, 6, 8, 20, 10, 12, 18 };
+    int heapSize = arr.size();
+    
+    cout<<endl<<"Min heap is :- ";
+    printArray(arr, heapSize);
+    
+    //Heapify function to convert Min Heap to Max Heap
+    for(int i = (heapSize - 2) / 2; i >= 0; --i) {
+        heapify(arr, i, heapSize);
+    }
+    
+    cout<<endl<<"Max heap is :- ";
+    printArray(arr, heapSize);
+    
+    return 0;
+}
