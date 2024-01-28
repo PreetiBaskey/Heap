@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+    
+    //Test Case 1
+    string s = "aaaaaabbccc";
+    //Test Case 2
+    // string s = "aaaaaaabbccc";
+    int stringLength = s.length();
+    string result = s;
+    
+    int maxFeq = 0;
+    int charMaxFreq;
+    
+    vector<int> count(26, 0);
+    
+    for(char &ch: s) {
+        count[ch - 'a']++;
+        
+        if(count[ch - 'a'] > maxFeq) {
+            maxFeq = count[ch - 'a'];
+            charMaxFreq = ch;
+        }
+        
+        if(count[ch - 'a'] > (stringLength + 1)/2) {
+            result = "";
+        }
+    }
+    
+    int i = 0;
+    
+    while(count[charMaxFreq = 'a'] > 0) {
+        result[i] = charMaxFreq;
+        i = i + 2;
+        count[charMaxFreq = 'a']--;
+    }
+    
+    for(char ch = 'a'; ch <= 'z'; ch++) {
+        while(count[ch - 'a'] > 0) {
+            if(i >= stringLength) {
+                i = 1;
+            }
+            result[i] = ch;
+            i += 2;
+            count[ch - 'a']--;
+        }
+    }
+    
+    if(result.length() == 0) {
+        cout<<endl<<"Not possible to arrange string alternatively !!";
+    }
+    else {
+        cout<<endl<<"Rearranged string is :- "<<result;   
+    }
+    
+    return 0;
+}
