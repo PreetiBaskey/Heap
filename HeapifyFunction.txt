@@ -6,10 +6,10 @@ void heapify(int arr[], int size, int i) {
     int leftIndex = 2 * i;
     int rightIndex = 2 * i + 1;
     
-    while(leftIndex <= size && arr[largest] < arr[leftIndex]) {
+    if(leftIndex <= size && arr[largest] < arr[leftIndex]) {
         largest = leftIndex;
     }
-    while(rightIndex <= size && arr[largest] < arr[rightIndex]) {
+    if(rightIndex <= size && arr[largest] < arr[rightIndex]) {
         largest = rightIndex;
     }
     if(largest != i) {
