@@ -1,24 +1,35 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int main() {
-    
-    vector<int> arr = {3, 2, 1, 5, 6, 4};
-    int k;
-    priority_queue<int, vector<int>, greater<int>> minh;
-    
-    cout<<"Enter kth number to check :- ";
-    cin>>k;
-    for(int data: arr) {
-        minh.push(data);
-        
-        if(minh.size() > k) {
-            minh.pop();
+vector<int> kThLargestElement(vector<int> &arr, int k) {
+    priority_queue<int, vector<int>, greater<int>> minH;
+    vector<int> result;
+    for(int i = 0; i < arr.size(); i++) {
+        minH.push(arr[i]);
+        if(minH.size() > k) {
+            minH.pop();
         }
     }
-    cout<<endl<<k<<"th largest element is :- "<<minh.top();
-    //O(nlog(k))
     
+    while(!minH.empty()) {
+        result.push_back(minH.top());
+        minH.pop();
+    }
+    
+    return result;
+}
+
+int main() {
+    
+    vector<int> arr = {7, 10, 4, 3, 20, 15};
+    int k;
+    cout<<"Enter value of K :- ";
+    cin>>k;
+    vector<int> result = kThLargestElement(arr, k);
+    cout<<k<<"th largest elements are :- ";
+    for(auto data: result) {
+        cout<<data<<" ";
+    }
     
     return 0;
 }
