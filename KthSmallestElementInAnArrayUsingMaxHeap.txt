@@ -1,24 +1,30 @@
+// Kth largest element
+
 #include<bits/stdc++.h>
 using namespace std;
 
-int main() {
-
-    vector<int> arr = {3, 2, 1, 5, 6, 4};
-    int k;
-    priority_queue<int> maxh;
-
-    cout<<"Enter kth number to check :- ";
-    cin>>k;
-    for(int data: arr) {
-        maxh.push(data);
-
-        if(maxh.size() > k) {
-            maxh.pop();
+int kThSmallestElement(vector<int> &arr, int k) {
+    priority_queue<int> maxH;
+    for(int i = 0; i < arr.size(); i++) {
+        maxH.push(arr[i]);
+        
+        if(maxH.size() > k) {
+            maxH.pop();
         }
     }
-    cout<<endl<<k<<"th smallest element is :- "<<maxh.top();
-    //O(nlog(k))
+    
+    return maxH.top();
+}
 
-
+int main() {
+    
+    vector<int> arr = {3, 2, 1, 5, 6, 4};
+    int k;
+    cout<<"Enter K :- ";
+    cin>>k;
+    
+    int result = kThSmallestElement(arr, k);
+    cout<<k<<"th smallest element is :- "<<result;
+    
     return 0;
 }
