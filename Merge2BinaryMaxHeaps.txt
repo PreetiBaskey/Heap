@@ -1,55 +1,60 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+void swap(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
 void heapify(vector<int> &arr, int size, int i) {
     int largest = i;
-    int leftIndex = 2 * i;
-    int rightIndex = 2 * i + 1;
+    int leftIndex = 2 * i + 1;
+    int rightIndex = 2 * i + 2;
     
-    while(leftIndex <= size && arr[leftIndex] > arr[largest]) {
+    if(leftIndex <= size && arr[largest] < arr[leftIndex]) {
         largest = leftIndex;
     }
-    while(rightIndex <= size && arr[rightIndex] > arr[largest]) {
+    if(rightIndex <= size && arr[largest] < arr[rightIndex]) {
         largest = rightIndex;
     }
     if(largest != i) {
-        int temp = arr[largest];
-        arr[largest] = arr[i];
-        arr[i] = temp;
+        swap(arr[largest], arr[i]);
         
         heapify(arr, size, largest);
     }
 }
 
+vector<int> merge2BinaryMaxHeap(vector<int> &arr, vector<int> &brr, int n, int m) {
+    
+    vector<int> result;
+    
+    for(int i = 0; i < n; i++) {
+        result.push_back(arr[i]);
+    }
+    for(int i = 0; i < m; i++) {
+        result.push_back(brr[i]);
+    }
+    
+    // Heapify the merged vector/ array
+    for(int i = ((n + m) / 2) - 1; i >= 0; i--) {
+        heapify(result, n + m, i);
+    }
+    
+    return result;
+}
+
 int main() {
     
-    vector<int> collectData;
-    int arr1[] = {2, 5, 1, 9, 12};
-    int arr2[] = {3, 7, 4, 10};
-
-    collectData.push_back(-1);
-    cout<<"First array data :- ";
-    for(int i = 0; i < 5; i++) {
-        cout<<arr1[i]<<" ";
-        collectData.push_back(arr1[i]);
-    }
-    cout<<endl<<"Second array data :- ";
-    for(int i = 0; i < 4; i++) {
-        cout<<arr2[i]<<" ";
-        collectData.push_back(arr2[i]);
-    }
+    // Given
+    vector<int> arr = {10, 5, 6, 2};
+    vector<int> brr = {12, 7, 9};
+    int n = 4, m = 3;
     
-    cout<<endl<<"Collected data from 2 arrays to Vector is :- ";
-    for(int data: collectData) {
+    vector<int> result = merge2BinaryMaxHeap(arr, brr, n, m);
+    cout<<"Merged 2 binary max heap is :- ";
+    for(auto data: result) {
         cout<<data<<" ";
-    }
-    
-    for(int i = collectData.size()/2; i > 0; i--) {
-        heapify(collectData, collectData.size(), i);
-    }
-    cout<<endl<<"Heap after merging two max heap is :- ";
-    for(int i = 1; i < collectData.size(); i++) {
-        cout<<collectData[i]<<" ";
     }
     
     return 0;
