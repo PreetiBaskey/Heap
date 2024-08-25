@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int kthLargestSumContinuousSubArrays(vector<int> &arr, int k) {
+    priority_queue<int, vector<int>, greater<int>> minHeap;
+    
+    int sum = 0;
+    for(int i = 0; i < arr.size(); i++) {
+        for(int j = i; j < arr.size(); j++) {
+            sum += arr[j];
+            
+            if(minHeap.size() < k) {
+                minHeap.push(arr[j]);
+            }
+            else {
+                if(minHeap.top() < arr[j]) {
+                    minHeap.pop();
+                }
+            }
+        }
+    }
+    
+    return minHeap.top();
+}
+
+int main() {
+    
+    vector<int> arr = {20, 15, 14, -5, -6, -1};
+    int k;
+    cout<<"Enter the value of k :- ";
+    cin>>k;
+    int result = kthLargestSumContinuousSubArrays(arr, k);
+    cout<<k<<"th largest sum subarray is :- "<<result;
+    
+    return 0;
+}
