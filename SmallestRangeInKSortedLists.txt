@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Info {
+    public:
+        int data;
+        int i;
+        int j;
+        int N;
+        
+        Info(int data, int i, int j, int N) {
+            this->data = data;
+            this->i = i;
+            this->j = j;
+            this->N = N;
+        }
+};
+
+class myComparator {
+    public:
+        bool operator()(Info* a, Info* b) {
+        return a->data > b->data;
+    }
+};
+
+vector<int> getSmallestRange(vector<vector<int>> &arr) {
+    int sizes = arr.size();
+    priority_queue<Info*, vector<Info*>, myComparator> pq;
+    
+    int maxi = INT_MIN;
+    int mini = INT_MAX;
+    int range = INT_MAX;
+    
+    for(int i = 0; i < sizes; i++) {
+        Info* newInfo = new Info(arr[i][0], i, 0, arr[i].size());
+        pq.push(newInfo);
+        // mini = min(mini, arr[i][0]);
+        maxi = max(maxi, arr[i][0]);
+    }
+    
+    while(!pq.empty()) {
+        Info* front_info = pq.top();
+        int data = front_info->data;
+        int i = front_info->i;
+        int j = front_info->j;
+        pq.pop();
+        
+        if(range > maxi - data) {
+            range = maxi - data;
+            mini = data;
+        }
+        if(j == arr[i].size()) {
+            break;
+        }
+        Info* insertInfo = new Info(arr[i][j  +1], i, j + 1, arr[i].size());
+        pq.push(insertInfo);
+        maxi = max(maxi, arr[i][j + 1]);
+    }
+    
+    return {mini, maxi};
+}
+
+int main() {
+    
+    vector<vector<int>> arr = {{4,10,15,24,26}, {0,9,12,20}, {5,18,22,30}};
+    vector<int> result = getSmallestRange(arr);
+    cout<<"Smallest range is :- ";
+    for(auto data: result) {
+        cout<<data<<" ";
+    }
+    
+    
+    return 0;
+}
