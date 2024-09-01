@@ -33,3 +33,38 @@ int main() {
     
     return 0;
 }
+
+
+
+
+// 2nd Approach 
+#include<bits/stdc++.h>
+using namespace std;
+
+int findMinCost(vector<int> &arr) {
+    int sum = 0;
+    
+    priority_queue<int, vector<int>, greater<int>> pq;
+    for(int i = 0; i < arr.size(); i++) {
+        pq.push(arr[i]);
+    }
+    while(pq.size() >= 2) {
+        int P1 = pq.top(); pq.pop();
+        int P2 = pq.top(); pq.pop();
+        int temp = P1 + P2;
+        sum += temp;
+        pq.push(temp);
+    }
+    
+    
+    return sum;
+}
+
+int main() {
+    
+    vector<int> arr = {4, 2, 7, 6, 9};
+    int result = findMinCost(arr);
+    cout<<"Minimum cost is :- "<<result;
+    
+    return 0;
+}
