@@ -1,24 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<int> arr;
+vector<int> inOrderResult;
 
-class node {
+class Node {
     public:
         int data;
-        node* left;
-        node* right;
+        Node* left = NULL;
+        Node* right = NULL;
         
-        node(int data) {
+        Node(int data) {
             this->data = data;
             this->left = NULL;
             this->right = NULL;
         }
 };
-
-node* createBST(node* root, int data) {
+void inOrderTraversal(Node* root) {
     if(root == NULL) {
-        return new node(data);
+        return;
+    }
+    inOrderTraversal(root->left);
+    cout<<root->data<<" ";
+    inOrderResult.push_back(root->data);
+    inOrderTraversal(root->right);
+}
+Node* createBST(Node* root, int data) {
+    if(root == NULL) {
+        return new Node(data);
     }
     if(data < root->data) {
         root->left = createBST(root->left, data);
@@ -29,21 +37,9 @@ node* createBST(node* root, int data) {
     
     return root;
 }
-
-void inOrder(node* root) {
-    if(root == NULL) {
-        return;
-    }
-    inOrder(root->left);
-    cout<<root->data<<" ";
-    arr.push_back(root->data);
-    inOrder(root->right);
-}
-
-node* enterData(node* root) {
+Node* enterData(Node* root) {
     int data;
     cout<<"Enter data [Enter -1 to end] :- ";
-    //4 2 1 3 6 5 7
     cin>>data;
     while(data != -1) {
         root = createBST(root, data);
@@ -53,34 +49,47 @@ node* enterData(node* root) {
     
     return root;
 }
-
-node* preOrderTraversal(node* root, vector<int> &arr, int &index) {
+Node* convertBSTToMinHeap(Node* root, vector<int> &inOrderResult, int &idx) {
+    
     if(root == NULL) {
         return NULL;
     }
-    root->data = arr[index];
-    index++;
-    preOrderTraversal(root->left, arr, index);
-    preOrderTraversal(root->right, arr, index);
+    root->data = inOrderResult[idx];
+    idx++;
+    convertBSTToMinHeap(root->left, inOrderResult, idx);
+    convertBSTToMinHeap(root->right, inOrderResult, idx);
     
     return root;
 }
-
-
+void levelOrderTraversal(Node* root) {
+    if(root == NULL) {
+        return;
+    }
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty()) {
+        Node* front_node = q.front();
+        q.pop();
+        cout<<front_node->data<<" ";
+        if(front_node->left != NULL) {
+            q.push(front_node->left);
+        }
+        if(front_node->right != NULL) {
+            q.push(front_node->right);
+        }
+    }
+}
 int main() {
     
-    node* root = NULL;
-    node* updatedRoot = enterData(root);
-    cout<<endl<<"Inorder traversal is :- ";
-    inOrder(updatedRoot);
-    cout<<endl<<"Vector's data is :- ";
-    for(int data: arr) {
-        cout<<data<<" ";
-    }
-    int index = 0;
-    node* minHeap = preOrderTraversal(updatedRoot, arr, index);
-    cout<<endl<<"Inorder traversal of Min Heap is :- ";
-    inOrder(minHeap);
+    Node* root = NULL;
+    Node* updatedRoot = enterData(root);
+    cout<<"Inorder traversal of BST is :- ";
+    inOrderTraversal(updatedRoot);
+    
+    int idx = 0;
+    Node* updatedRoot1 = convertBSTToMinHeap(updatedRoot, inOrderResult, idx);
+    cout<<endl<<"Level Order traversal of converted Min Heap is :- ";
+    levelOrderTraversal(updatedRoot1);
     
     return 0;
 }
