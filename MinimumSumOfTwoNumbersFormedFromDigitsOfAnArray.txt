@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+string addTwoString(string num1, string num2) {
+    int N1 = num1.length() - 1;
+    int N2 = num2.length() - 1;
+    int carry = 0;
+    string result;
+    while(N1 >= 0 || N2 >= 0) {
+        if(N2 < 0) {
+            result.push_back(((num1[N1]-48 + carry)%10) + 48);
+            carry = (num1[N1]-48 + carry)/10;
+            N1--;
+        }
+        else if(N1 < 0) {
+            result.push_back(((num2[N2]-48 + carry)%10) + 48);
+            carry = (num2[N2]-48 + carry)/10;
+        }
+        else {
+            result.push_back(((num1[N1]-48 + num2[N2]-48 + carry)%10) + 48);
+            carry = (num1[N1]-48 + num2[N2]-48 + carry)/10;
+            N1--;
+            N2--;
+        }
+    }
+    
+    if(carry) {
+        result.push_back(carry+48);
+    }
+    reverse(result.begin(), result.end());
+    
+    return result;
+}
+
+string solve(vector<int> &arr, int N) {
+    priority_queue<int, vector<int>, greater<int>> pq;
+    for(int i = 0; i < N; i++) {
+        pq.push(arr[i]);
+    }
+    vector<int> newArr;
+    while(!pq.empty()) {
+        int front_node = pq.top();
+        pq.pop();
+        newArr.push_back(front_node);
+    }
+    for(auto data: newArr) {
+        cout<<data<<" ";
+    }
+    
+    string num1, num2, sum
+    ;
+    for(int i =0 ; i < N; i++) {
+        if(i%2 == 0) {
+            int num = newArr[i];
+            if(num == 0 && num1.size() == 0) {
+                continue;
+            }
+            num1 += to_string(num);
+        }
+        else {
+            int num = newArr[i];
+            if(num == 0 && num2.size() == 0) {
+                continue;
+            }
+            num2 += to_string(num);
+        }
+    }
+    
+    sum = addTwoString(num1, num2);
+    
+    return sum;
+}
+
+int main() {
+    
+    vector<int> arr = {1, 7, 2, 8, 3};
+    // vector<int> arr = {6, 8, 4, 5, 2, 3};
+    int N = arr.size();
+    string result = solve(arr, N);
+    cout<<endl<<"Minimum sum is :- "<<result;
+    
+    return 0;
+}
