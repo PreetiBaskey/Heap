@@ -36,37 +36,6 @@ class Heap {
             }
             cout<<endl;
         }
-        
-        void deleteFromHeap() {
-            if(size == 0) {
-                cout<<"nothing to delete !";
-                return;
-            }
-            
-            arr[1] = arr[size];
-            size--;
-            
-            int index = 1;
-            while(index < size) {
-                int leftIndex = index * 2;
-                int rightIndex = index * 2 + 1;
-                int largest = index;
-                
-                if(leftIndex <= size && arr[leftIndex] > arr[largest]) {
-                    largest = leftIndex;
-                }
-                if(rightIndex <= size && arr[rightIndex] > arr[largest]) {
-                    largest = rightIndex;
-                }
-                if(largest != index) {
-                    swap(arr[largest], arr[index]);
-                    index = largest;
-                }
-                else {
-                    return;
-                }
-            }
-        }
 };
 
 int main() {
@@ -79,9 +48,6 @@ int main() {
     h.insert(20);
     h.insert(100);
     h.display();
-    
-    h.deleteFromHeap();
-    h.display();    
     
     return 0;
 }
