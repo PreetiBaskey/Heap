@@ -1,0 +1,52 @@
+//leetcode 239 - hard - sliding window maximum - time complexity - O(n), space complexity - O(k) - (auxialary space), O(n) - for result vector
+//optimal solution
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> result;
+        deque<int> dq;
+
+        for(int i = 0; i < n; i++) {
+            while(!dq.empty() && dq.front() < i - k + 1) {
+                dq.pop_front();
+            }
+            while(!dq.empty() && nums[i] >= nums[dq.back()]) {
+                dq.pop_back();
+            }
+
+            dq.push_back(i);
+
+            if(i >= k - 1) {
+                result.push_back(nums[dq.front()]);
+            }
+        }
+
+        return result;
+    }
+};
+
+
+
+
+//brute force solution
+//time complexity - O(n2), space complexity - O(n) - for result, O(1) - several variable used like i, j, maxElement - temporary variables
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> result;
+
+        // 1, 2, 3, 4, 5, 6, 7, 8
+        for(int i = 0; i < n - k + 1; i++) {
+            int maxElement = INT_MIN;
+            for(int j = i; j < i + k; j++) {
+                maxElement = max(maxElement, nums[j]);
+            }
+            result.push_back(maxElement);
+        }
+
+        return result;
+    }
+};
