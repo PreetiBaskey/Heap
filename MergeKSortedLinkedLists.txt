@@ -1,3 +1,68 @@
+// geeksforgeeks version of merge k sorted linked lists
+/*
+class Node {
+  public:
+    int data;
+    Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    Node* mergeTwoLists(Node* &l1, Node* &l2) {
+        if(l1 == NULL) return l2;
+        if(l2 == NULL) return l1;
+        if(l1 == NULL && l2 == NULL) return NULL;
+        if(l1->data < l2->data) {
+            l1->next = mergeTwoLists(l1->next, l2);
+            return l1;
+        }
+        else {
+            l2->next = mergeTwoLists(l1, l2->next);
+            return l2;
+        }
+    }
+    Node* partitionAndMerge(vector<Node*> &arr, int start, int end) {
+        if(start > end) {
+            return NULL;
+        }
+        if(start == end) {
+            return arr[start];
+        }
+        
+        int mid = start + (end - start)/2;
+        
+        Node* L1 = partitionAndMerge(arr, start, mid);
+        Node* L2 = partitionAndMerge(arr, mid + 1, end);
+        
+        return mergeTwoLists(L1, L2);
+    }
+    Node* mergeKLists(vector<Node*>& arr) {
+        int n = arr.size();
+        int start = 0;
+        int end = n - 1;
+        
+        if(n == 0) {
+            return NULL;
+        }
+        
+        return partitionAndMerge(arr, start, end);
+    }
+};
+
+
+
+
+
+
+
+
+// Row version of merge k sorted linked lists
 #include<bits/stdc++.h>
 using namespace std;
 
