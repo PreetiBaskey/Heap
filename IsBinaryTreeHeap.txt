@@ -1,0 +1,53 @@
+/*
+class Node {
+   public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    int countNodes(Node* root) {
+        if(root == NULL) {
+            return 0;
+        }
+        return 1 + countNodes(root->left) + countNodes(root->right);
+    }
+    bool isMax(Node* root) {
+        if(root == NULL) {
+            return true;
+        }
+        
+        if((root->left != NULL && root->data < root->left->data) ||
+            (root->right != NULL && root->data < root->right->data)) {
+            return false;
+        }
+        
+        return isMax(root->left) && isMax(root->right);
+    }
+    bool isCBT(Node* root, int i, int totalNodes) {
+        if(root == NULL) {
+            return true;
+        }
+        if(i + 1 > totalNodes) {
+            return false;
+        }
+        return isCBT(root->left, 2 * i + 1, totalNodes) && 
+        isCBT(root->right, 2 * i + 2, totalNodes);
+    }
+    bool isHeap(Node* tree) {
+        int totalNodes = countNodes(tree);
+        if(isCBT(tree, 0, totalNodes) && isMax(tree)) {
+            return true;
+        }
+        else return false;
+        
+    }
+};
